@@ -15,5 +15,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+
+      - name: Check Node.js version
+        run: node --version
+
       - name: Say hello
         run: echo "Hello! Github Actions is working."
