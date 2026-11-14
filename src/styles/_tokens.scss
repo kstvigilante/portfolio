@@ -1,0 +1,66 @@
+// Design tokens — Sass values for build-time math, CSS custom properties for runtime theming.
+
+$breakpoints: (
+  sm: 560px,
+  md: 820px,
+  lg: 1080px,
+  xl: 1280px,
+);
+
+$container: 1180px;
+$gutter: 24px;
+
+$font-sans:
+  'Inter Tight',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  sans-serif;
+$font-serif: 'Instrument Serif', Georgia, serif;
+$font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+$ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+@mixin dark-theme {
+  --bg: #0b0d10;
+  --bg-elev: #12151a;
+  --surface: #161a20;
+  --surface-hover: #1c2129;
+  --border: #242a33;
+  --border-strong: #343c47;
+  --text: #ecebe6;
+  --text-muted: #9b9d9f;
+  --text-faint: #6b6f75;
+  --accent: #c9f45c;
+  --accent-ink: #0b0d10;
+  --accent-soft: rgb(201 244 92 / 12%);
+  --glow: rgb(201 244 92 / 18%);
+  --code-key: #8ab4ff;
+  --code-str: #c9f45c;
+  --code-type: #f5a97f;
+  --code-punct: #6b6f75;
+  --shadow: 0 30px 60px -30px rgb(0 0 0 / 70%);
+  color-scheme: dark;
+}
+
+@mixin light-theme {
+  --bg: #f6f4ee;
+  --bg-elev: #efece4;
+  --surface: #ffffff;
+  --surface-hover: #faf8f3;
+  --border: #e3dfd4;
+  --border-strong: #cfc9bb;
+  --text: #15171a;
+  --text-muted: #5c5f63;
+  --text-faint: #8a8d90;
+  --accent: #4d6b00;
+  --accent-ink: #ffffff;
+  --accent-soft: rgb(77 107 0 / 10%);
+  --glow: rgb(140 190 20 / 22%);
+  --code-key: #2557c7;
+  --code-str: #4d6b00;
+  --code-type: #b4531c;
+  --code-punct: #8a8d90;
+  --shadow: 0 30px 60px -34px rgb(40 35 20 / 28%);
+  color-scheme: light;
+}

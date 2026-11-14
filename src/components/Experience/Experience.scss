@@ -1,0 +1,117 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.experience {
+  padding: 120px 0;
+  background: var(--bg-elev);
+  border-block: 1px solid var(--border);
+
+  @include down(md) {
+    padding: 88px 0;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__timeline {
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.role {
+  display: grid;
+  gap: 16px;
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+
+  &:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  @include up(md) {
+    grid-template-columns: 240px 1fr;
+    gap: 48px;
+    padding: 56px 0;
+  }
+
+  &__aside {
+    display: grid;
+    align-content: start;
+    gap: 4px;
+  }
+
+  &__period {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: $font-mono;
+    font-size: 0.85rem;
+  }
+
+  &__live {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  &__location {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+
+  &__body {
+    display: grid;
+    gap: 16px;
+    max-width: 780px;
+  }
+
+  &__title {
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  &__at {
+    padding-inline: 0.12em;
+    font-family: $font-serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-faint);
+  }
+
+  &__company {
+    color: var(--accent);
+  }
+
+  &__summary {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+  }
+
+  &__points {
+    display: grid;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  &__point {
+    position: relative;
+    padding-left: 24px;
+    font-size: 0.96rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 0.7em;
+      width: 10px;
+      height: 1px;
+      background: var(--accent);
+    }
+  }
+}

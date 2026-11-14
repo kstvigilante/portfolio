@@ -1,0 +1,31 @@
+@use 'tokens' as *;
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  &__item {
+    border: 1px solid var(--border);
+  }
+
+  &--outline &__item {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: $font-mono;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  &--filled {
+    gap: 8px;
+  }
+
+  &--filled &__item {
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--bg-elev);
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+}

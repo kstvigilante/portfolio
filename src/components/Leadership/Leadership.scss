@@ -1,0 +1,115 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.leadership {
+  padding: 120px 0;
+  background: var(--bg-elev);
+  border-block: 1px solid var(--border);
+
+  @include down(md) {
+    padding: 88px 0;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__list {
+    display: grid;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--border);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+.achievement {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 32px 28px 36px 0;
+  border-bottom: 1px solid var(--border);
+
+  @include up(md) {
+    padding-left: 28px;
+    border-left: 1px solid var(--border);
+
+    &:nth-child(2n + 1) {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+
+  @include up(lg) {
+    &:nth-child(2n + 1) {
+      padding-left: 28px;
+      border-left: 1px solid var(--border);
+    }
+
+    &:nth-child(3n + 1) {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+
+  &__index {
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  &__body {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+}
+
+.education {
+  margin-top: 64px;
+
+  &__label {
+    @include eyebrow;
+    margin-bottom: 16px;
+  }
+
+  &__row {
+    display: grid;
+    gap: 4px 24px;
+    padding: 24px 0;
+    border-block: 1px solid var(--border);
+
+    @include up(md) {
+      grid-template-columns: 1fr auto auto;
+      align-items: baseline;
+    }
+  }
+
+  &__degree {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  &__school {
+    color: var(--text-muted);
+  }
+
+  &__year {
+    font-family: $font-mono;
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+}

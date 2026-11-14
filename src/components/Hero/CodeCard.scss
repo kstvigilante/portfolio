@@ -1,0 +1,124 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.code-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transform: perspective(1400px) rotateY(-6deg) rotateX(3deg);
+  transition: transform 0.8s $ease-out;
+
+  &:hover {
+    transform: none;
+  }
+
+  @include down(lg) {
+    transform: none;
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  &__lights {
+    display: flex;
+    gap: 6px;
+  }
+
+  &__light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-strong);
+  }
+
+  &__file {
+    flex: 1;
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+  }
+
+  &__pulse {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: currentColor;
+      animation: code-card-pulse 2s $ease-out infinite;
+    }
+  }
+
+  &__code {
+    margin: 0;
+    padding: 24px 22px 28px;
+    overflow-x: auto;
+    font-family: $font-mono;
+    font-size: clamp(0.76rem, 1.05vw, 0.88rem);
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  &__token {
+    &--keyword {
+      color: var(--code-key);
+    }
+
+    &--string {
+      color: var(--code-str);
+    }
+
+    &--type {
+      color: var(--code-type);
+    }
+
+    &--punct {
+      color: var(--code-punct);
+    }
+  }
+
+  &__caret {
+    display: inline-block;
+    width: 8px;
+    height: 1.1em;
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    background: var(--accent);
+    animation: code-card-blink 1.1s steps(1) infinite;
+  }
+}
+
+@keyframes code-card-pulse {
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+@keyframes code-card-blink {
+  50% {
+    opacity: 0;
+  }
+}

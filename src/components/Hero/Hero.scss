@@ -1,0 +1,222 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.hero {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+  padding: 120px 0 96px;
+  isolation: isolate;
+  overflow: hidden;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 60% 40%, #000 20%, transparent 75%);
+    opacity: 0.55;
+  }
+
+  &__glow {
+    position: absolute;
+    top: 8%;
+    right: -10%;
+    width: min(820px, 90vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow), transparent 62%);
+    filter: blur(20px);
+    animation: hero-drift 18s ease-in-out infinite alternate;
+  }
+
+  &__inner {
+    @include container;
+    display: grid;
+    gap: 64px;
+    align-items: center;
+
+    @include up(lg) {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  &__copy {
+    display: grid;
+    gap: 28px;
+    justify-items: start;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  &__badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  &__title {
+    font-size: clamp(2.5rem, 6.6vw, 5.2rem);
+    font-weight: 500;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+
+    em {
+      font-family: $font-serif;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.015em;
+      color: var(--accent);
+    }
+  }
+
+  &__lead {
+    max-width: 54ch;
+    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+    color: var(--text-muted);
+
+    strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+  }
+
+  &__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    transition:
+      transform 0.35s $ease-out,
+      background-color 0.25s,
+      border-color 0.25s;
+
+    svg {
+      transition: transform 0.35s $ease-out;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &--primary {
+      background: var(--accent);
+      color: var(--accent-ink);
+
+      &:hover svg {
+        transform: translateX(4px);
+      }
+    }
+
+    &--secondary {
+      border: 1px solid var(--border-strong);
+
+      &:hover {
+        border-color: var(--text-muted);
+      }
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  &__meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+      color: var(--accent);
+    }
+  }
+
+  &__visual {
+    min-width: 0;
+  }
+
+  &__scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    width: 26px;
+    height: 42px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 999px;
+    translate: -50% 0;
+
+    @include down(md) {
+      display: none;
+    }
+  }
+
+  &__scroll-dot {
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 3px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--text-muted);
+    translate: -50% 0;
+    animation: hero-scroll 1.8s $ease-out infinite;
+  }
+}
+
+@keyframes hero-drift {
+  to {
+    transform: translate(-12%, 10%) scale(1.08);
+  }
+}
+
+@keyframes hero-scroll {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}

@@ -1,0 +1,96 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.recent-project {
+  padding: 140px 0 120px;
+  background: var(--bg-elev);
+  border-block: 1px solid var(--border);
+
+  @include down(md) {
+    padding: 96px 0 80px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__overview {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+
+    @include up(lg) {
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 64px;
+    }
+  }
+
+  &__details {
+    display: grid;
+    gap: 24px;
+    justify-items: start;
+  }
+
+  &__label {
+    @include eyebrow;
+  }
+
+  &__contributions {
+    display: grid;
+    gap: 14px;
+  }
+
+  &__contribution {
+    position: relative;
+    padding-left: 24px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 0.72em;
+      width: 10px;
+      height: 1px;
+      background: var(--accent);
+    }
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 24px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    transition: transform 0.35s $ease-out;
+
+    svg {
+      transition: transform 0.35s $ease-out;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+
+      svg {
+        transform: translate(3px, -3px);
+      }
+    }
+  }
+
+  &__preview {
+    min-width: 0;
+  }
+
+  &__products {
+    display: grid;
+    gap: 16px;
+    margin-top: 72px;
+
+    @include up(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

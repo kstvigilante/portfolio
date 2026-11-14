@@ -1,0 +1,45 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.skills {
+  padding: 140px 0 120px;
+
+  @include down(md) {
+    padding: 96px 0 80px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 16px;
+
+    @include up(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+.skill-group {
+  @include card;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: 24px;
+
+  &:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+
+  &__title {
+    @include eyebrow;
+    color: var(--accent);
+  }
+}

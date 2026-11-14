@@ -1,0 +1,57 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.product-card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  &__platform {
+    @include eyebrow;
+    color: var(--accent);
+  }
+
+  &__name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  &__text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  &__footer {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+
+    &--link {
+      font-weight: 600;
+
+      svg {
+        color: var(--accent);
+        transition: transform 0.3s $ease-out;
+      }
+
+      &:hover svg {
+        transform: translate(3px, -3px);
+      }
+    }
+
+    &--internal {
+      color: var(--text-faint);
+    }
+  }
+}

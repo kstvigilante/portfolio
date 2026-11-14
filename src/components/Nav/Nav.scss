@@ -1,0 +1,206 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.nav {
+  $block: &;
+
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 0.35s $ease-out,
+    border-color 0.35s $ease-out,
+    backdrop-filter 0.35s $ease-out;
+
+  &--scrolled,
+  &--open {
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom-color: var(--border);
+  }
+
+  &__inner {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: 72px;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  &__mark {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  &__brand-text {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+
+    @include down(sm) {
+      display: none;
+    }
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  &__links {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+
+    @include down(md) {
+      // Absolute, not fixed: the bar's backdrop-filter makes it the containing block.
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: calc(100dvh - 72px);
+      flex-direction: column;
+      gap: 0;
+      padding: 24px 16px;
+      border: 0;
+      border-radius: 0;
+      background: var(--bg);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition:
+        opacity 0.3s $ease-out,
+        transform 0.3s $ease-out,
+        visibility 0.3s;
+
+      #{$block}--open & {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+    }
+  }
+
+  &__item--mobile-only {
+    @include up(md) {
+      display: none;
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+
+    &:hover {
+      color: var(--text);
+    }
+
+    &--active {
+      color: var(--text);
+      background: var(--surface-hover);
+    }
+
+    @include down(md) {
+      padding: 18px 4px;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text);
+
+      &--active {
+        background: none;
+        color: var(--accent);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__icon-button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-muted);
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      transform 0.4s $ease-out;
+
+    &:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    &:active {
+      transform: rotate(-20deg) scale(0.94);
+    }
+
+    &--menu {
+      @include up(md) {
+        display: none;
+      }
+    }
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform 0.3s $ease-out;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    @include down(md) {
+      display: none;
+    }
+  }
+}
