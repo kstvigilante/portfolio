@@ -7,8 +7,8 @@ on:
       - feature/docker-cicd
 
 jobs:
-  hello:
-    name: My First Github Actions job
+  build:
+    name: Build React Application
     runs-on: ubuntu-latest
 
     steps:
@@ -22,6 +22,12 @@ jobs:
 
       - name: Check Node.js version
         run: node --version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build React application
+        run: npm run build
 
       - name: Say hello
         run: echo "Hello! Github Actions is working."
