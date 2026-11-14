@@ -59,6 +59,7 @@ export function Contact() {
               className="contact__button"
               onClick={() => {
                 void copyEmail();
+                console.log("copyEmail");
               }}
             >
               <Icon name={copied ? 'check' : 'copy'} size={16} />
