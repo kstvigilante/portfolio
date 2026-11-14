@@ -21,12 +21,12 @@ export default function App() {
       <Nav theme={theme} onToggleTheme={toggle} />
       <main id="main">
         <Hero />
-        <RecentProject />
+        {/* <RecentProject />
         <Work />
         <Experience />
         <Skills />
         <Leadership />
-        <Contact />
+        <Contact /> */}
       </main>
     </>
   );
