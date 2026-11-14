@@ -64,3 +64,17 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --parameters '{"commands":["echo Hello from GitHub Actions!"]}' \
             --region ap-southeast-2
+
+      - name: Wait for test command
+        run: |
+          aws ssm wait command-executed \
+            --command-id fd146a44-7357-41e5-b121-4036628551eb \
+            --instance-id i-0f328916e19d129d9 \
+            --region ap-southeast-2
+
+      - name: Get test command output
+        run: |
+          aws ssm get-command-invocation \
+            --command-id fd146a44-7357-41e5-b121-4036628551eb \
+            --instance-id i-0f328916e19d129d9 \
+            --region ap-southeast-2
