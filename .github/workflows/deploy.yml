@@ -32,5 +32,8 @@ jobs:
       - name: Check Docker version
         run: docker --version
 
+      - name: Build Docker image
+        run: docker build -t portfolio:latest .
+
       - name: Say hello
         run: echo "Hello! Github Actions is working."
