@@ -40,3 +40,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Tag Docker image
+        run: docker tag portfolio:latest ${{ secrets.DOCKERHUB_USERNAME }}/portfolio:latest
+
+      - name: Push Docker Image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/portfolio:latest
