@@ -56,3 +56,11 @@ jobs:
 
       - name: Test AWS Systems Manager access
         run: aws ssm describe-instance-information --region ap-southeast-2
+
+      - name: Send test command to EC2
+        run: |
+          aws ssm send-command \
+            --instance-ids "i-0f328916e19d129d9" \
+            --document-name "AWS-RunShellScript" \
+            --parameters '{"commands":["echo Hello from GitHub Actions!"]}' \
+            --region ap-southeast-2
