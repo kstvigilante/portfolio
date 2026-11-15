@@ -1,0 +1,131 @@
+name: Portfolio CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    name: Build and Deploy Portfolio
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Download repository code
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # 2. Install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+
+      # 3. Verify Node.js
+      - name: Check Node.js version
+        run: node --version
+
+      # 4. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 5. Build React application
+      - name: Build React application
+        run: npm run build
+
+      # 6. Build Docker image
+      - name: Build Docker image
+        run: docker build -t portfolio:latest .
+
+      # 7. Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 8. Tag Docker image
+      - name: Tag Docker image
+        run: docker tag portfolio:latest ${{ secrets.DOCKERHUB_USERNAME }}/portfolio:latest
+
+      # 9. Push image to Docker Hub
+      - name: Push Docker Image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/portfolio:latest
+
+      # 10. Authenticate with AWS
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::458894879054:role/GitHubActionsDeployRole
+          aws-region: ap-southeast-2
+
+      # 11. Deploy to EC2 through Systems Manager
+      - name: Deploy portfolio to EC2
+        run: |
+          INSTANCE_ID="i-0f328916e19d129d9"
+          AWS_REGION="ap-southeast-2"
+
+          echo "Sending deployment command to EC2..."
+
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" \
+            --document-name "AWS-RunShellScript" \
+            --parameters '{"commands":["set -e; docker pull kstvigilante/portfolio:latest; docker stop portfolio-container || true; docker rm portfolio-container || true; docker run -d -p 127.0.0.1:8080:80 --name portfolio-container --restart unless-stopped kstvigilante/portfolio:latest"]}' \
+            --query "Command.CommandId" \
+            --output text \
+            --region "$AWS_REGION")
+
+          echo "Deployment command ID: $COMMAND_ID"
+
+          echo "Waiting for EC2 deployment to finish..."
+
+          for attempt in {1..120}; do
+
+            STATUS=$(aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "$INSTANCE_ID" \
+              --query "Status" \
+              --output text \
+              --region "$AWS_REGION" 2>/dev/null || true)
+
+            echo "Deployment status: $STATUS"
+
+            if [ "$STATUS" = "Success" ]; then
+
+              echo "Deployment completed successfully!"
+
+              aws ssm get-command-invocation \
+                --command-id "$COMMAND_ID" \
+                --instance-id "$INSTANCE_ID" \
+                --query "StandardOutputContent" \
+                --output text \
+                --region "$AWS_REGION"
+
+              exit 0
+
+            fi
+
+            case "$STATUS" in
+              Failed|Cancelled|TimedOut|DeliveryTimedOut|ExecutionTimedOut|Undeliverable|Terminated)
+                echo "Deployment failed. Fetching details..."
+
+                aws ssm get-command-invocation \
+                  --command-id "$COMMAND_ID" \
+                  --instance-id "$INSTANCE_ID" \
+                  --output json \
+                  --region "$AWS_REGION" || true
+
+                exit 1
+                ;;
+            esac
+
+            sleep 5
+
+          done
+
+          echo "Deployment timed out!"
+          exit 1
