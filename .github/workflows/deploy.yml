@@ -75,7 +75,7 @@ jobs:
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids "$INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
-            --parameters '{"commands":["set -e; docker pull kstvigilante/portfolio:latest; docker stop portfolio-container || true; docker rm portfolio-container || true; docker run -d -p 80:80 --name portfolio-container --restart unless-stopped kstvigilante/portfolio:latest"]}' \
+            --parameters '{"commands":["set -e; docker pull kstvigilante/portfolio:latest; docker stop portfolio-container || true; docker rm portfolio-container || true; docker run -d -p 127.0.0.1:8080:80 --name portfolio-container --restart unless-stopped kstvigilante/portfolio:latest"]}' \
             --query "Command.CommandId" \
             --output text \
             --region "$AWS_REGION")
